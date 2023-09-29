@@ -79,6 +79,20 @@ public class PIP {
 
                 }
             else {
+                if (curr.equals(")")) {
+                    stack.pop();
+                    while (!(stack.peek().equals("("))) {
+                        if (!(stack.peek().equals("("))) {
+                            output += stack.pop();
+                        } else {stack.pop(); }
+                    }
+
+                }else if ((stack.isEmpty()) ||(checkPrecedence(curr, stack.peek()))){
+                    stack.push(curr);
+
+                }else{
+                    output += stack.pop();
+                }
 
 
 
@@ -87,27 +101,35 @@ public class PIP {
 
             }
         }
+        while ( stack.isEmpty() != true){
+            output += stack.pop();
+        }
+        return output;
     }
 
     public static boolean checkPrecedence(String first, String second) {
+        int f = 0;
+        int s = 0;
         if (first.equals("(")) {
-            return true;
+            f = 3;
+        } else if (first.equals("*") || first.equals("/")) {
+            f = 2;
+        } else  if (first.equals("+") || first.equals("-")) {
+            f = 1;
         }
         if (second.equals("(")) {
+            s = 3;
+        } else if (second.equals("*") || second.equals("/")) {
+            s = 2;
+        } else  if (second.equals("+") || second.equals("-")) {
+            s = 1;
+        }
+        if (f > s) {
+            return true;
+        }
+        if (f < s) {
             return false;
         }
-        if (first.equals("+") || first.equals("-")) {
-            if (second.equals("*") || second.equals("/")) {
-                return false;
-            }
-        }
-
-        if (first.equals("*") || first.equals("/")) {
-            if (second.equals("+") || second.equals("-")) {
-                return true;
-            }
-        }
-
         return false;
     }
     //true is higher, false is lower
