@@ -26,7 +26,7 @@ public class PIP {
 
     public static boolean isNum(String str, int index) {
         String ch = str.substring(index, index+1);
-        if((ch.equals("+")) || (ch.equals("-")) || (ch.equals("*")) || (ch.equals("/"))){
+        if((ch.equals("+")) || (ch.equals("-")) || (ch.equals("*")) || (ch.equals(")")) ||  (ch.equals("(")) || (ch.equals("/"))){
             return false;
         }
         return true;
@@ -80,18 +80,21 @@ public class PIP {
                 }
             else {
                 if (curr.equals(")")) {
-                    stack.pop();
+
                     while (!(stack.peek().equals("("))) {
-                        if (!(stack.peek().equals("("))) {
-                            output += stack.pop();
-                        } else {stack.pop(); }
+                        output += stack.pop();
                     }
+                    stack.pop();
+                } else if(!(stack.isEmpty()) && (stack.peek().equals("("))) {
+                        stack.push(curr);
 
-                }else if ((stack.isEmpty()) ||(checkPrecedence(curr, stack.peek()))){
-                    stack.push(curr);
-
+                }else if ((stack.isEmpty()) || (checkPrecedence(curr, stack.peek()))){
+                        stack.push(curr);
                 }else{
-                    output += stack.pop();
+                    while (!(stack.isEmpty()) && !(checkPrecedence(curr, stack.peek()))) {
+                        output += stack.pop();
+                    }
+                    stack.push(curr);
                 }
 
 
