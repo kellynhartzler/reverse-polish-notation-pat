@@ -80,6 +80,8 @@ public class PIP {
                 }
             else {
 
+
+
                 }
 
 
@@ -88,6 +90,12 @@ public class PIP {
     }
 
     public static boolean checkPrecedence(String first, String second) {
+        if (first.equals("(")) {
+            return true;
+        }
+        if (second.equals("(")) {
+            return false;
+        }
         if (first.equals("+") || first.equals("-")) {
             if (second.equals("*") || second.equals("/")) {
                 return false;
