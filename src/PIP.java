@@ -71,36 +71,38 @@ public class PIP {
         for(int i = 0; i< input.length(); i++) {
             if(!((input.substring(i,i+1)).equals(" "))) {
 
-                String curr = input.substring(i, i + 1);
+                String cur = input.substring(i, i+1);
 
-                if (isNum(input, i)) {
+                if(isNum(input, i)) {
 
-                    output += curr;
+                    output += cur;
 
-                }
-            else {
-                if (curr.equals(")")) {
+                } else if(cur.equals(")")) {
 
-                    while (!(stack.peek().equals("("))) {
-                        output += stack.pop();
+                    //LOOP THROUGH STACK POP EVERYHTING INTO THE OUTPUT AND STOP AT THE "(", then DELETE THAT
+                    boolean end  = false;
+                    while ( end  == false) {
+                        if (stack.peek() != "(") {
+                            output += stack.pop();
+                        } else {
+                            stack.pop();
+                            end = true;
+                        }
                     }
-                    stack.pop();
-                } else if(!(stack.isEmpty()) && (stack.peek().equals("("))) {
-                        stack.push(curr);
 
-                }else if ((stack.isEmpty()) || (checkPrecedence(curr, stack.peek()))){
-                        stack.push(curr);
-                }else{
-                    while (!(stack.isEmpty()) && !(checkPrecedence(curr, stack.peek()))) {
+                } else if (stack.isEmpty()) {
+
+                    stack.push(cur);
+
+                } else {
+                    if (checkPrecedence(cur, stack.peek())) {
+                        stack.push(cur);
+                    } else {
                         output += stack.pop();
+                        output += cur;
+
                     }
-                    stack.push(curr);
                 }
-
-
-
-                }
-
 
             }
         }
