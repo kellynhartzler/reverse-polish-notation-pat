@@ -1,67 +1,102 @@
 import java.io.*;
 import java.util.*;
 public class PIP {
-
+    /**
+     *Solves a postfix expression and returns the solution.
+     *
+     * @param input The postfix expression being input to be solved
+     * @return A solution to the input postfix expression
+     */
     static String evaluatePostfix(String input) {
-
         Stack<String> stack = new Stack<String>();
-
         for(int i = 0; i< input.length(); i++) {
             if(!((input.substring(i,i+1)).equals(" "))) {
+                //If the next item is a number push to stack until an operator is found
                 if (isNum(input, i)) {
                     stack.push(input.substring(i, i + 1));
                 } else {
+                    //When an operator is found, apply it to the two numbers in the stack using doMath and put the new single number into the stack
                     String second = stack.pop();
                     String first = stack.pop();
                     stack.push(doMath(first, second, input.substring(i, i + 1)));
                 }
             }
         }
+        //Final number in the stack SHOULD be the answer
         String answer = stack.pop();
+        //If there are more numbers in the stack, it the expression is incorrect
         if(!(stack.empty())) {
             throw new IllegalArgumentException("invalid postfix expression");
         }
         return answer;
     }
 
+    /**
+     * Tests if a character at index of str is an operator.
+     *
+     * @param str The string being searched in.
+     * @param index The single character substring to be tested.
+     * @return If the character in question is a non-operator.
+     */
     public static boolean isNum(String str, int index) {
         String ch = str.substring(index, index+1);
+        //All operators being tested for
         if((ch.equals("+")) || (ch.equals("-")) || (ch.equals("*")) || (ch.equals(")")) ||  (ch.equals("(")) || (ch.equals("/"))){
             return false;
         }
         return true;
     }
 
+    /**
+     * Applies a specified operation to two different numbers.
+     *
+     * @param first The first number in the expression.
+     * @param op The operator in between the two numbers.
+     * @param second The number at the end.
+     * @return the result of the operation.
+     */
     public static String doMath(String first, String second, String op) {
+
+        //first + second
         if (op.substring(0,1).equals("+")){
             int f = Integer.parseInt(first);
             int s = Integer.parseInt(second);
 
             return Integer.toString(f+s);
         }
+        //first - second
         if (op.substring(0,1).equals("-")){
             int f = Integer.parseInt(first);
             int s = Integer.parseInt(second);
 
             return Integer.toString(f-s);
         }
+        //first * second
         if (op.substring(0,1).equals("*")){
             int f = Integer.parseInt(first);
             int s = Integer.parseInt(second);
 
             return Integer.toString(f*s);
         }
+        //first / second
         if (op.substring(0,1).equals("/")){
             int f = Integer.parseInt(first);
             int s = Integer.parseInt(second);
 
             return Integer.toString(f/s);
         }
+        //If it's invalid then throw an exception
         else{
           throw new IllegalArgumentException("invalid operator");
         }
     }
 
+    /**
+     * Takes an equation in infix and returns it in postfix
+     *
+     * @param input the infix equation to be translated
+     * @return the postfix equation
+     */
     static String infixToPostfix(String input) {
 
         Stack<String> stack = new Stack<String>();
@@ -124,6 +159,13 @@ public class PIP {
         return output;
     }
 
+    /**
+     * Checks precedence between two operators
+     *
+     * @param first The first operator to be compared.
+     * @param second
+     * @return
+     */
     public static boolean checkPrecedence(String first, String second) {
         int f = 0;
         int s = 0;
