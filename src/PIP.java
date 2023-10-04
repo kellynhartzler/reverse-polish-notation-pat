@@ -77,16 +77,14 @@ public class PIP {
 
                     output += cur;
 
-                } else if(cur.equals(")")) {
-
-                    //LOOP THROUGH STACK POP EVERYHTING INTO THE OUTPUT AND STOP AT THE "(", then DELETE THAT
-                    boolean end  = false;
-                    while ( end  == false) {
-                        if (stack.peek() != "(") {
-                            output += stack.pop();
-                        } else {
+                } else if (cur.equals(")")) {
+                    boolean end = false;
+                    while (!end) {
+                        if (stack.peek().equals("(")) {
                             stack.pop();
                             end = true;
+                        } else {
+                            output += stack.pop();
                         }
                     }
 
@@ -94,19 +92,33 @@ public class PIP {
 
                     stack.push(cur);
 
+                } else if (cur.equals("(")) {
+
+                    stack.push(cur);
+
                 } else {
+
                     if (checkPrecedence(cur, stack.peek())) {
+
                         stack.push(cur);
+
                     } else {
-                        output += stack.pop();
-                        output += cur;
+
+                        while (!stack.isEmpty() && !checkPrecedence(cur, stack.peek())) {
+
+                            output += stack.pop();
+
+                        }
+
+                        stack.push(cur);
 
                     }
+
                 }
 
             }
         }
-        while ( stack.isEmpty() != true){
+        while (!(stack.isEmpty())){
             output += stack.pop();
         }
         return output;
@@ -115,27 +127,17 @@ public class PIP {
     public static boolean checkPrecedence(String first, String second) {
         int f = 0;
         int s = 0;
-        if (first.equals("(")) {
-            f = 3;
-        } else if (first.equals("*") || first.equals("/")) {
+    if (first.equals("*") || first.equals("/")) {
             f = 2;
         } else  if (first.equals("+") || first.equals("-")) {
             f = 1;
         }
-        if (second.equals("(")) {
-            s = 3;
-        } else if (second.equals("*") || second.equals("/")) {
+    if (second.equals("*") || second.equals("/")) {
             s = 2;
         } else  if (second.equals("+") || second.equals("-")) {
             s = 1;
         }
-        if (f > s) {
-            return true;
-        }
-        if (f < s) {
-            return false;
-        }
-        return false;
+        return (f > s);
     }
     //true is higher, false is lower
 
