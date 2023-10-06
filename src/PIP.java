@@ -10,8 +10,8 @@ public class PIP {
     /**
      *Solves a postfix expression and returns the solution.
      *
-     * @param input The postfix expression being input to be solved
-     * @return A solution to the input postfix expression
+     * @param input The postfix expression being input to be solved.
+     * @return The solution to the input postfix expression.
      */
     static String evaluatePostfix(String input) {
         Stack<String> stack = new Stack<String>();
@@ -98,10 +98,10 @@ public class PIP {
     }
 
     /**
-     * Takes an equation in infix and returns it in postfix
+     * Takes an equation in infix and returns it in postfix.
      *
-     * @param input the infix equation to be translated
-     * @return the postfix equation
+     * @param input The infix equation to be translated.
+     * @return The postfix equation.
      */
     static String infixToPostfix(String input) {
 
@@ -109,19 +109,19 @@ public class PIP {
 
         String output = "";
 
-        //loops through each character of the input and adds to stack or output
+        //Loops through each character of the input and adds to stack or output
         for(int i = 0; i< input.length(); i++) {
-            //if character is a space, it is skipped
+            //If character is a space, it is skipped
             if(!((input.substring(i,i+1)).equals(" "))) {
 
                 String cur = input.substring(i, i+1);
 
-                // tests if it's a number, if it is, adds to output
+                //Tests if it's a number, if it is, adds to output
                 if(isNum(input, i)) {
 
                     output += cur;
 
-                    // else it must be an operator, finds precedence then appropriately adds to output or stack
+                    //Else it must be an operator, finds precedence then appropriately adds to output or stack
                 } else if (cur.equals(")")) {
                     boolean end = false;
                     while (!end) {
@@ -174,7 +174,7 @@ public class PIP {
      *
      * @param first The first operator to be compared.
      * @param second The second operator to be compared.
-     * @return If the first operator has precedence over the second
+     * @return If the first operator has precedence over the second.
      */
     public static boolean checkPrecedence(String first, String second) {
         int f = 0;
