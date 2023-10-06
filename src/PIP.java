@@ -1,5 +1,11 @@
 import java.io.*;
 import java.util.*;
+
+/**
+ * evaluates Postfix expressions and translates from infix to postfix
+ *
+ * @author Ben Andrews, Marie Viita, Kellyn Hartzler
+ */
 public class PIP {
     /**
      *Solves a postfix expression and returns the solution.
@@ -103,15 +109,19 @@ public class PIP {
 
         String output = "";
 
+        //loops through each character of the input and adds to stack or output
         for(int i = 0; i< input.length(); i++) {
+            //if character is a space, it is skipped
             if(!((input.substring(i,i+1)).equals(" "))) {
 
                 String cur = input.substring(i, i+1);
 
+                // tests if it's a number, if it is, adds to output
                 if(isNum(input, i)) {
 
                     output += cur;
 
+                    // else it must be an operator, finds precedence then appropriately adds to output or stack
                 } else if (cur.equals(")")) {
                     boolean end = false;
                     while (!end) {
@@ -163,8 +173,8 @@ public class PIP {
      * Checks precedence between two operators
      *
      * @param first The first operator to be compared.
-     * @param second
-     * @return
+     * @param second The second operator to be compared.
+     * @return If the first operator has precedence over the second
      */
     public static boolean checkPrecedence(String first, String second) {
         int f = 0;
@@ -182,6 +192,5 @@ public class PIP {
         return (f > s);
     }
     //true is higher, false is lower
-
 
 }
