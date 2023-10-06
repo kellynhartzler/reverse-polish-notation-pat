@@ -179,6 +179,7 @@ public class PIP {
     public static boolean checkPrecedence(String first, String second) {
         int f = 0;
         int s = 0;
+        // assigns precedence value to first and second operator
     if (first.equals("*") || first.equals("/")) {
             f = 2;
         } else  if (first.equals("+") || first.equals("-")) {
